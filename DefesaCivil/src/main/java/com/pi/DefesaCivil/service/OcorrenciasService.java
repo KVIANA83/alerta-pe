@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class OcorrenciaService {
+public class OcorrenciasService {
 
     private final UsuarioRepository usuarioRepository;
     private final OcorrenciasRepository ocorrenciasRepository;
