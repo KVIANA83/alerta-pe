@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CreateUsuarioDTO {
     
-    @NotBlank
+    @NotBlank(message = "Nome é um campo obrigatório!")
     private String nome;
     
     @NotBlank(message = "Conta Google é um campo obrigatório!")
