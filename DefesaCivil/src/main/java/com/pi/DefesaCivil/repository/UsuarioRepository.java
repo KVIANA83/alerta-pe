@@ -14,4 +14,3 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findById(@Param("idUsuario") Long idUsuario);
 
 }
-
