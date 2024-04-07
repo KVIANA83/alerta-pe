@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import com.pi.DefesaCivil.dto.StatusEnum;
+
 @Entity
 @Data
 @Builder
@@ -29,16 +31,18 @@ public class Processos {
     
     @Column(name = "data_fechamento")
     private LocalDate dataFechamento;
+
+    @Column
+    private StatusEnum status;
     
     @Column
     private String contato;
     
-    @JoinColumn(name = "id_ocorrencia", referencedColumnName = "id_ocorrencia")
     @OneToOne
-    private Ocorrencia ocorrencia;
+    @Column
+    private Ocorrencias ocorrencia;
 
-    @JoinColumn(name = "id_admin", referencedColumnName = "id_admin")
-    @OneToOne()
+    @OneToMany
+    @Column
     private Administrador administrador;
-        
 }

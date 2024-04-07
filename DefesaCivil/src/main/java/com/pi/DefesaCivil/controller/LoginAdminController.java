@@ -1,9 +1,15 @@
 package com.pi.DefesaCivil.controller;
 
 import com.pi.DefesaCivil.dto.LoginAdminDTO;
+import com.pi.DefesaCivil.model.Administrador;
 import com.pi.DefesaCivil.service.AdministradorService;
+import com.pi.DefesaCivil.service.LoginService;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+
+import java.net.http.HttpClient;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,18 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/login")
 public class LoginAdminController {
 
-    private final AdministradorService administradorService;
+    private final LoginService service;
 
     @PostMapping
-    public ResponseEntity<String> login(@Valid @RequestBody LoginAdminDTO loginAdminDTO) {
-        String retorno;
+    public ResponseEntity<Administrador> login(@Valid @RequestBody LoginAdminDTO loginAdminDTO) {
 
-        if (administradorService.authenticate(loginAdminDTO.getUsername(), loginAdminDTO.getPassword())) {
-            retorno = " ";
-        } else {
-            retorno = "Credenciais de administrador inválidas";
-        }
-
-        return ResponseEntity.ok(retorno);
+        var admin = service.validaLoginAdmin(loginAdminDTO);
+    
+        return ResponseEntity.ok().body(admin);
     }
 }

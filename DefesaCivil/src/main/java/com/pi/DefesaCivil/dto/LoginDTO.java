@@ -14,6 +14,4 @@ public class LoginDTO {
     
     @NotBlank
     private String tokenGoogle;
-    
-    // Outros campos necessários para o login, se houver
 }

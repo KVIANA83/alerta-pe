@@ -12,11 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginAdminDTO {
     
-    @NotBlank
+    @NotBlank(message = "campo username é obrigatório")
     private String username;
     
-    @NotBlank
+    @NotBlank(message = "campo password é obrigatório")
     private String password;
-    
-    // Outros campos necessários para o login de administrador, se houver
 }
