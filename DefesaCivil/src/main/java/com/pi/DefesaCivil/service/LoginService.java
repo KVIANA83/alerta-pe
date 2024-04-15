@@ -21,7 +21,7 @@ public class LoginService {
 
         var adminOpt = administradorService.getAdmin(loginAdminDTO.getUsername());
 
-        if (!adminOpt.isPresent()) {
+        if (adminOpt.isEmpty()) {
             throw new ValidacaoException("Administrador não cadastrado!");
         }
 
@@ -35,12 +35,13 @@ public class LoginService {
 
     public Usuario validaLoginUsuario(LoginDTO loginDTO) {
 
-        var userOpt = usuarioService.findByEmail(loginDTO.getTokenGoogle());
+        var userOpt = usuarioService.findByTokenGoogle(loginDTO.getTokenGoogle());
 
-        //TODO: RECEBER O TOKEN DO GOOGLE
-        // CHAMAR API DO GOOGLE COM O TOKEN
-        // SE DER OK, PEGAR OS DADOS E BATER NO BANCO PARA PEGAR USUARIO
-        // VALIDAR SE EXISTE O USUARIO NA BASE
+        if (userOpt.isEmpty()) {
+            throw new ValidacaoException("usuário não cadastrado!");
+        }
+
+        return userOpt.get();
     }
 
 }

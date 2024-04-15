@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginDTO {
     
-    @NotBlank
+    @NotBlank(message = "tokenGoogle é obrigatório")
     private String tokenGoogle;
 }

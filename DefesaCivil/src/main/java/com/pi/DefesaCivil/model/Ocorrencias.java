@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.pi.DefesaCivil.dto.StatusEnum;
 
@@ -22,28 +22,28 @@ public class Ocorrencias {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ocorrencia")
     private Long idOcorrencia;
+
+    @Column
+    private String codigo;
     
     @Column
     private String descricao;
     
     @Column(name = "data_abertura")
-    private LocalDate dataAbertura;
+    private LocalDateTime dataAbertura;
     
     @Column(name = "data_fechamento")
-    private LocalDate dataFechamento;
+    private LocalDateTime dataFechamento;
     
     @Column
     private String contato;
     
-    //@Column(name = "nome_solicitante")
-    //private String nomeSolicitante;
-
     @Column
     private StatusEnum status;
 
     @OneToMany
     @Column(name = "id_solicitante")
-    private Usuario idSolicitante;
+    private Usuario solicitante;
 
     @OneToMany
     @Column(name = "id_admin")

@@ -1,11 +1,17 @@
 package com.pi.DefesaCivil.controller;
 
 import com.pi.DefesaCivil.dto.CreateUsuarioDTO;
+import com.pi.DefesaCivil.dto.OcorrenciasDTO;
 import com.pi.DefesaCivil.dto.UsuarioDTO;
-import com.pi.DefesaCivil.model.Usuario;
 import lombok.AllArgsConstructor;
+
+import com.pi.DefesaCivil.service.OcorrenciasService;
+import com.pi.DefesaCivil.service.UsuarioService;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -22,33 +27,30 @@ import java.util.List;
 public class UsuarioController {
     
     private final UsuarioService usuarioService;
+    private final OcorrenciasService ocorrenciasService;
 
-    @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
 
     //Endpoint para registrar um novo usuário
     @PostMapping("/registrar")
-    public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO novoUsuario = usuarioService.registrarNovoUsuario(usuarioDTO);
+    public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody @Valid CreateUsuarioDTO createUsuarioDTO) {
+        UsuarioDTO novoUsuario = usuarioService.registrarUsuario(createUsuarioDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
     //Endpoint para solicitar uma ocorrência
-    @PostMapping("/{idUsuario}/ocorrencias")
-    public ResponseEntity<String> solicitarOcorrencia(@PathVariable Long idUsuario, @RequestBody String descricaoOcorrencia) {
-        
+    @PostMapping("/{email}/ocorrencias")
+    public ResponseEntity<OcorrenciasDTO> solicitarOcorrencia(@PathVariable("email") String email, @RequestBody String descricaoOcorrencia) {
+        OcorrenciasDTO ocorrenciaSalva = ocorrenciasService.registrarOcorrencia(email, descricaoOcorrencia);
         //Para solicitar uma ocorrência
-        return ResponseEntity.ok("Pedido solicitado com sucesso!");
+        return ResponseEntity.ok(ocorrenciaSalva);
     }
 
     //Endpoint para acompanhar o andamento das ocorrências
-    @GetMapping("/{idUsuario}/ocorrencias")
-    public ResponseEntity<String> acompanharOcorrencias(@PathVariable Long idUsuario) {
-        
+    @GetMapping("/{email}/ocorrencias")
+    public ResponseEntity<List<OcorrenciasDTO>> acompanharOcorrencias(@PathVariable("email") String email) {
+        List<OcorrenciasDTO> ocorrencias = ocorrenciasService.listarOcorrenciasPorUsuario(email);
         //Para recuperar e retornar as ocorrências
-        return ResponseEntity.ok("Seu histório de pedidos...");
+        return ResponseEntity.ok(ocorrencias);
     }
     
 }

@@ -4,7 +4,7 @@ public enum StatusEnum {
 
     CRIADO,
     EM_ANDAMENTO,
-    EM_PROCESSO,
+    CRIAR_PROCESSO,
     RESOLVIDO,
     CANCELADO
 }

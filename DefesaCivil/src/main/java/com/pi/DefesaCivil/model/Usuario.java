@@ -35,5 +35,8 @@ public class Usuario {
     
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
+
+    @Column(name = "token_google")
+    private String tokenGoogle;
     
 }

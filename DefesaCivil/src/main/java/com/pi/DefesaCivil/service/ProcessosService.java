@@ -42,22 +42,10 @@ public class ProcessosService {
         return processosRepository.findById(idProcesso);
     }
 
-    // Método para buscar processos por data de abertura
-    public List<Processos> buscarProcessosPorDataAbertura(LocalDate dataAbertura) {
-        return processosRepository.findAllByDataAbertura(dataAbertura);
-    }
-
     // Método para atualizar um processo (apenas administradores podem fazer isso)
-    public Processos atualizarProcesso(Long idProcesso, Processos processoAtualizado) {
+    //public Processos atualizarProcesso(Long idProcesso, Processos processoAtualizado) {
         // Lógica para verificar se o usuário autenticado é um administrador
         // Se for um administrador, atualize o processo e salve no banco de dados
         // Caso contrário, lançar uma exceção de autorização
-    }
-
-    // Método para excluir um processo (apenas administradores podem fazer isso)
-    public void excluirProcesso(Long idProcesso) {
-        // Lógica para verificar se o usuário autenticado é um administrador
-        // Se for um administrador, exclua o processo do banco de dados
-        // Caso contrário, lançar uma exceção de autorização
-    }
+    //}
 }

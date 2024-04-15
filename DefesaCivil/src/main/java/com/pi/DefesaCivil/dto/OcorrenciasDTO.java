@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -13,8 +13,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class OcorrenciasDTO {
     
-    private Long idOcorrencias;
-    private LocalDate dataAbertura;
-    private LocalDate dataFechamento;
+    private Long idOcorrencia;
+    private LocalDateTime dataAbertura;
+    private LocalDateTime dataFechamento;
     private String nomeSolicitante;
+    private String codigo;
+    private String descricao;
+    private String contato;
+    private StatusEnum status;
 }

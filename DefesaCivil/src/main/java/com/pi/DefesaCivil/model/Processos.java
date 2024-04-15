@@ -22,6 +22,9 @@ public class Processos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_processos")
     private Long idProcessos;
+
+    @Column
+    private String codigo;
     
     @Column
     private String descricao;
