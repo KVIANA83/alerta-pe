@@ -41,12 +41,12 @@ public class Ocorrencias {
     @Column
     private StatusEnum status;
 
-    @OneToMany
-    @Column(name = "id_solicitante")
+    @OneToOne
+    @JoinColumn(name = "id_solicitante")
     private Usuario solicitante;
 
-    @OneToMany
-    @Column(name = "id_admin")
+    @OneToOne
+    @JoinColumn(name = "id_admin")
     private Administrador administrador;
         
 }

@@ -1,13 +1,10 @@
 package com.pi.DefesaCivil.service;
 
-import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.model.Processos;
-import com.pi.DefesaCivil.repository.OcorrenciasRepository;
 import com.pi.DefesaCivil.repository.ProcessosRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +12,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProcessosService {
 
-    private final OcorrenciasRepository ocorrenciasRepository;
     private final ProcessosRepository processosRepository;
 
+    /* 
     // Método para processar ocorrências não tratadas e gerar processos
     public void processarOcorrencias() {
         List<Ocorrencias> ocorrenciasNaoTratadas = ocorrenciasRepository.findOcorrenciasNaoTratadas();
@@ -30,7 +27,7 @@ public class ProcessosService {
                 processosRepository.save(processo);
             }
         }
-    }
+    }*/
 
     // Método para buscar todos os processos
     public List<Processos> buscarTodosProcessos() {

@@ -17,8 +17,6 @@ public interface OcorrenciasRepository extends JpaRepository<Ocorrencias, Long> 
     Optional<Ocorrencias> findByDataAbertura(LocalDate dataAbertura);
     
     Optional<Ocorrencias> findByDescricao(String descricao);
-    
-    List<Ocorrencias> findOcorrenciasNaoTratadas();
 
     Optional<List<Ocorrencias>> findBySolicitante(Usuario usuario);
 

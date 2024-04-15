@@ -42,10 +42,10 @@ public class Processos {
     private String contato;
     
     @OneToOne
-    @Column
+    @JoinColumn(name = "id_ocorrencia")
     private Ocorrencias ocorrencia;
 
-    @OneToMany
-    @Column
+    @OneToOne
+    @JoinColumn(name = "id_admin")
     private Administrador administrador;
 }
