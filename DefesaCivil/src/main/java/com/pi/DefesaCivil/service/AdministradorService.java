@@ -1,6 +1,7 @@
 package com.pi.DefesaCivil.service;
 
 import com.pi.DefesaCivil.dto.StatusEnum;
+import com.pi.DefesaCivil.dto.TratarOcorrenciasDTO;
 import com.pi.DefesaCivil.exceptions.ValidacaoException;
 import com.pi.DefesaCivil.model.Administrador;
 import com.pi.DefesaCivil.model.Ocorrencias;
@@ -8,6 +9,7 @@ import com.pi.DefesaCivil.repository.AdministradorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,22 +21,6 @@ public class AdministradorService {
     private final OcorrenciasService ocorrenciasService;
     private final AdministradorRepository administradorRepository;
 
-    /* 
-    // Método para validar ou tratar ocorrências e gerar processos
-    public void processarOcorrencias() {
-        List<Ocorrencias> ocorrenciasNaoTratadas = ocorrenciasRepository.findOcorrenciasNaoTratadas();
-        for (Ocorrencias ocorrencia : ocorrenciasNaoTratadas) {
-            // Lógica para validar ou tratar a ocorrência e gerar processo, se necessário
-            // Exemplo:
-            if (ocorrencia.getDescricao().contains("gravidade")) {
-                Processos processo = new Processos();
-                processo.setDescricao("Processo gerado para ocorrência não tratada");
-                // Outras atribuições de processo, se necessário
-                processosRepository.save(processo);
-            }
-        }
-    }
-    */
 
     public Optional<Administrador> getAdmin(String login) {
         return administradorRepository.findByLogin(login);
@@ -68,15 +54,18 @@ public class AdministradorService {
         ocorrenciasService.atualizarOcorrencia(ocorr);
     }
 
-    public Ocorrencias atualizarOcorrencia(Long idOcorrencia, String login, String status) {
-        var adminOpt = getAdmin(login);
+    // método usado para tratar ocorrências já atribuídas ao Administrador
+    public Ocorrencias tratarOcorrencia(TratarOcorrenciasDTO tratarOcorrenciasDTO) {
+        
+        var statusEncontrado = StatusEnum.pegarEnumPeloStatus(tratarOcorrenciasDTO.getStatus());
+        var ocorrencia = ocorrenciasService.pegarOcorrencia(tratarOcorrenciasDTO.getIdOcorrencia());
+        var adminOpt = getAdmin(tratarOcorrenciasDTO.getLoginAdmin());
         
         if(adminOpt.isEmpty()) {
             throw new ValidacaoException("Administrador não encontrado.");
         }
 
         var admin = adminOpt.get();
-        var ocorrencia = ocorrenciasService.pegarOcorrencia(idOcorrencia);
 
         if (ocorrencia.getAdministrador().getLogin() == null) {
             throw new ValidacaoException("Ocorrência não pode ser atualizada porque ainda não está em andamento");
@@ -85,18 +74,11 @@ public class AdministradorService {
             throw new ValidacaoException("Ocorrência pertence a outro Administrador");
         }
 
-        switch(status) {
-            case "CRIAR PROCESSO":
-                ocorrencia.setStatus(StatusEnum.CRIAR_PROCESSO);
-                break;
-            case "RESOLVIDO":
-                ocorrencia.setStatus(StatusEnum.RESOLVIDO);
-                break;
-            case "CANCELADO":
-                ocorrencia.setStatus(StatusEnum.CANCELADO);
-                break;
-            default:
-                throw new ValidacaoException("Status inválido");
+        ocorrencia.setStatus(statusEncontrado);
+        ocorrencia.setObservacao(tratarOcorrenciasDTO.getDescricao());
+
+        if ((statusEncontrado.equals(StatusEnum.RESOLVIDO)) || (statusEncontrado.equals(StatusEnum.CANCELADO))) {
+            ocorrencia.setDataFechamento(LocalDateTime.now());
         }
 
         return ocorrenciasService.atualizarOcorrencia(ocorrencia);

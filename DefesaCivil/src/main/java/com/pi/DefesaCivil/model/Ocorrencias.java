@@ -28,6 +28,9 @@ public class Ocorrencias {
     
     @Column
     private String descricao;
+
+    @Column
+    private String observacao;
     
     @Column(name = "data_abertura")
     private LocalDateTime dataAbertura;

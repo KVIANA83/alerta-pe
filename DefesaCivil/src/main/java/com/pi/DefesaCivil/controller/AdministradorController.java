@@ -1,16 +1,20 @@
 package com.pi.DefesaCivil.controller;
 
 import com.pi.DefesaCivil.dto.StatusEnum;
+import com.pi.DefesaCivil.dto.TratarOcorrenciasDTO;
 import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.service.AdministradorService;
 import com.pi.DefesaCivil.service.OcorrenciasService;
+import com.pi.DefesaCivil.service.ProcessosService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +28,9 @@ public class AdministradorController {
     
     private final AdministradorService administradorService;
     private final OcorrenciasService ocorrenciasService;
+    private final ProcessosService processosService;
 
     //todo:
-    // se atualizar o status para CRIAR_PROCESSO, já cria o processo.
     //criar endpoint para listar processos
     //criar enpoint para listar processos do admin
     //criar endpoint para atualizar processo
@@ -39,19 +43,22 @@ public class AdministradorController {
     }
 
     // Endpoint para atribuir uma ocorrencia ao adminstrador
-    @PostMapping("/listar-ocorrencias")
+    @PostMapping("/atribuir-ocorrencias")
     public ResponseEntity<String> atribuirOcorrenciasParaAdmin(Long idOcorrencia, String loginAdmin) {
         administradorService.atribuirOcorrencia(idOcorrencia, loginAdmin);
         return ResponseEntity.ok("Ocorrencia atribuída com sucesso!");
     }
     
     //endpoint para atualizar o status da ocorrencia (vira processo ou não)
-    @PostMapping("/listar-ocorrencias")
-    public ResponseEntity<String> atualizarOcorrencias(Long idOcorrencia, String loginAdmin, String status) {
-        var ocorrencia = administradorService.atualizarOcorrencia(idOcorrencia, loginAdmin, status);
+    @PostMapping("/tratar-ocorrencias")
+    public ResponseEntity<String> tratarOcorrencias(@Valid @RequestBody TratarOcorrenciasDTO tratarOcorrenciasDTO) {
+        var ocorrencia = administradorService.tratarOcorrencia(tratarOcorrenciasDTO);
+
         if (ocorrencia.getStatus().equals(StatusEnum.CRIAR_PROCESSO)){
             //todo: chamar serevice de processo e crair um processo.
-            //return ResponseEntity.ok("Ocorrencia virou Processo de código {}");
+            var processoCriado = processosService.criarProcessos(ocorrencia);
+            var mensagem = String.format("Ocorrencia virou Processo de código %s", processoCriado.getCodigo());
+            return ResponseEntity.ok(mensagem);
         }
         return ResponseEntity.ok("Ocorrencia atualizada com sucesso!");
     }
