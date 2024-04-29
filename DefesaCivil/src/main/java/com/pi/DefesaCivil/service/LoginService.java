@@ -19,13 +19,8 @@ public class LoginService {
 
     public Administrador validaLoginAdmin(LoginAdminDTO loginAdminDTO) {
 
-        var adminOpt = administradorService.getAdmin(loginAdminDTO.getUsername());
+        var admin = administradorService.getAdmin(loginAdminDTO.getUsername());
 
-        if (adminOpt.isEmpty()) {
-            throw new ValidacaoException("Administrador não cadastrado!");
-        }
-
-        var admin = adminOpt.get();
         if (!loginAdminDTO.getPassword().equals(admin.getSenha())) {
             throw new ValidacaoException("Login ou senha incorretos!");
         }

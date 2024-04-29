@@ -5,7 +5,8 @@ import com.pi.DefesaCivil.exceptions.ValidacaoException;
 import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.model.Processos;
 import com.pi.DefesaCivil.repository.ProcessosRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProcessosService {
 
     private final ProcessosRepository processosRepository;

@@ -4,7 +4,6 @@ import com.pi.DefesaCivil.dto.StatusEnum;
 import com.pi.DefesaCivil.dto.TratarOcorrenciasDTO;
 import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.service.AdministradorService;
-import com.pi.DefesaCivil.service.OcorrenciasService;
 import com.pi.DefesaCivil.service.ProcessosService;
 
 import jakarta.validation.Valid;
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @Controller
-@RestController
 @AllArgsConstructor
 @RequestMapping("/administrador")
 public class AdministradorController {

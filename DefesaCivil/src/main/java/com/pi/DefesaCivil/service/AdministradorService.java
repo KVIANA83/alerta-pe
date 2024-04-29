@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -46,14 +45,10 @@ public class AdministradorService {
     }
 
     public void atribuirOcorrencia(Long idOcorrencia, String login) {
-        var adminOpt = getAdmin(login);
-        
-        if(adminOpt.isEmpty()) {
-            throw new ValidacaoException("Administrador não encontrado.");
-        }
+        var admin = getAdmin(login);
 
         var ocorr = ocorrenciasService.pegarOcorrencia(idOcorrencia);
-        ocorr.setAdministrador(adminOpt.get());
+        ocorr.setAdministrador(admin);
         ocorr.setStatus(StatusEnum.EM_ANDAMENTO);
 
         ocorrenciasService.atualizarOcorrencia(ocorr);
