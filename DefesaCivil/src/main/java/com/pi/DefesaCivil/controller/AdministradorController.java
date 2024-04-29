@@ -27,7 +27,6 @@ import java.util.List;
 public class AdministradorController {
     
     private final AdministradorService administradorService;
-    private final OcorrenciasService ocorrenciasService;
     private final ProcessosService processosService;
 
     //todo:
@@ -66,7 +65,7 @@ public class AdministradorController {
     //Endpoint para acompanhar o andamento das ocorrências
     @GetMapping("/{loginAdmin}/ocorrencias")
     public ResponseEntity<List<Ocorrencias>> acompanharOcorrencias(@PathVariable("loginAdmin") String loginAdmin) {
-        List<Ocorrencias> ocorrencias = ocorrenciasService.listarOcorrenciasPorAdmin(loginAdmin);
+        List<Ocorrencias> ocorrencias = administradorService.listarOcorrenciasPorAdmin(loginAdmin);
         //Para recuperar e retornar as ocorrências
         return ResponseEntity.ok(ocorrencias);
     }

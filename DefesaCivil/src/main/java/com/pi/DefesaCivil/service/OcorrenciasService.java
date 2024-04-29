@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.pi.DefesaCivil.dto.OcorrenciasDTO;
 import com.pi.DefesaCivil.dto.StatusEnum;
 import com.pi.DefesaCivil.exceptions.ValidacaoException;
+import com.pi.DefesaCivil.model.Administrador;
 import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.repository.OcorrenciasRepository;
 
@@ -20,7 +21,6 @@ public class OcorrenciasService {
 
     private final OcorrenciasRepository ocorrenciasRepository;
     private final UsuarioService usuarioService;
-    private final AdministradorService administradorService;
 
 
     public OcorrenciasDTO registrarOcorrencia(String email, String descricao) {
@@ -82,14 +82,9 @@ public class OcorrenciasService {
         return listaDeOcorrencias;
     }
 
-    public List<Ocorrencias> listarOcorrenciasPorAdmin(String loginAdmin) {
-        var adminOpt = administradorService.getAdmin(loginAdmin);
-
-        if(adminOpt.isEmpty()) {
-            throw new ValidacaoException("Administrador não encontrado.");
-        }
-
-        var resultOpt = ocorrenciasRepository.findByAdministrador(adminOpt.get());
+    public List<Ocorrencias> listarOcorrenciasPorAdmin(Administrador administrador) {
+        
+        var resultOpt = ocorrenciasRepository.findByAdministrador(administrador);
 
         if(resultOpt.isEmpty()) {
             return new ArrayList<>();

@@ -22,8 +22,13 @@ public class AdministradorService {
     private final AdministradorRepository administradorRepository;
 
 
-    public Optional<Administrador> getAdmin(String login) {
-        return administradorRepository.findByLogin(login);
+    public Administrador getAdmin(String login) {
+        var adminOpt = administradorRepository.findByLogin(login);
+
+        if(adminOpt.isEmpty()) {
+            throw new ValidacaoException("Administrador não encontrado.");
+        }
+        return adminOpt.get();
     }
 
     public List<Ocorrencias> listarOcorrenciasLivres() {
@@ -59,13 +64,7 @@ public class AdministradorService {
         
         var statusEncontrado = StatusEnum.pegarEnumPeloStatus(tratarOcorrenciasDTO.getStatus());
         var ocorrencia = ocorrenciasService.pegarOcorrencia(tratarOcorrenciasDTO.getIdOcorrencia());
-        var adminOpt = getAdmin(tratarOcorrenciasDTO.getLoginAdmin());
-        
-        if(adminOpt.isEmpty()) {
-            throw new ValidacaoException("Administrador não encontrado.");
-        }
-
-        var admin = adminOpt.get();
+        var admin = getAdmin(tratarOcorrenciasDTO.getLoginAdmin());
 
         if (ocorrencia.getAdministrador().getLogin() == null) {
             throw new ValidacaoException("Ocorrência não pode ser atualizada porque ainda não está em andamento");
@@ -83,4 +82,9 @@ public class AdministradorService {
 
         return ocorrenciasService.atualizarOcorrencia(ocorrencia);
     } 
+
+    public List<Ocorrencias> listarOcorrenciasPorAdmin(String loginAdmin) {
+        var admin = getAdmin(loginAdmin);
+        return ocorrenciasService.listarOcorrenciasPorAdmin(admin);
+    }
 }
