@@ -1,0 +1,21 @@
+package com.pi.DefesaCivil.dto;
+import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class AdministradorDTO {
+    
+    private String nome;
+    private String email;
+    private String telefone;
+    private LocalDate dataNascimento;
+    private String cargo;
+    private String login;
+}
