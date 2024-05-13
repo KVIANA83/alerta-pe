@@ -15,21 +15,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateUsuarioDTO {
     
-    @NotBlank(message = "Nome é um campo obrigatório!")
     private String nome;
-
-    @NotBlank(message = "Senha é um campo obrigatório!")
     private String senha;
-    
-    @NotBlank(message = "Conta Google é um campo obrigatório!")
     private String email;
-    
-    @NotBlank(message = "Telefone é um campo obrigatório!")
     private String telefone;
-    
-    @NotNull(message = "Data de nascimento é um campo obrigatório!")
     private LocalDate dataNascimento;
-
-    @NotBlank(message = "Endereço é um campo obrigatório!")
-    private String endereco;    
+    private String endereco; 
+    
+    public void validateFields() {
+        if (this.getNome() == null || this.getNome().isBlank()) {
+            throw new ValidacaoException("campo nome é obrigatório")
+        }
+        if (this.getEmail() == null || this.getEmail().isBlank()) {
+            throw new ValidacaoException("campo e-mail é obrigatório");
+        } 
+        if (this.getSenha() == null || this.getSenha().isBlank()) {
+            throw new ValidacaoException("campo senha é obrigatório");
+        }
+        if (this.getTelefone() == null || this.getTelefone().isBlank()) {
+            throw new ValidacaoException("campo telefone é obrigatório")
+        }
+        if (this.getDataNascimento() == null || this.getDataNascimento().isBlank()) {
+            throw new ValidacaoException("campo data de nascimento é obrigatório");
+        } 
+        if (this.getEndereco() == null || this.getEndereco().isBlank()) {
+            throw new ValidacaoException("campo endereço é obrigatório");
+        }
+    }
 }
