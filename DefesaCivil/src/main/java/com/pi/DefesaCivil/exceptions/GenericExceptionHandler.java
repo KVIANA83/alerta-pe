@@ -9,13 +9,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 
+/*
+    
+ */
     @ExceptionHandler(ValidacaoException.class)
-    public final ResponseEntity<ErrorBody> lancaExcessao(ValidacaoException ex) {
+    public final ResponseEntity<BodyMensagem> lancaExcessao(ValidacaoException ex) {
 
-        var errorBody = ErrorBody.builder()
-                .mensagem(ex.getMessage())
-                .build();
+        var body = BodyMensagem.builder().mensagem(ex.getMessage()).build();
 
-        return new ResponseEntity<ErrorBody>(errorBody, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<BodyMensagem>(body, HttpStatus.BAD_REQUEST);
     }
 }

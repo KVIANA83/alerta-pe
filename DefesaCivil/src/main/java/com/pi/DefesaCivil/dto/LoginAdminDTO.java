@@ -1,5 +1,7 @@
 package com.pi.DefesaCivil.dto;
 
+import com.pi.DefesaCivil.exceptions.ValidacaoException;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginAdminDTO {
     
-    @NotBlank(message = "campo username é obrigatório")
-    private String username;
-    
-    @NotBlank(message = "campo password é obrigatório")
+    private String login;
     private String password;
+
+
+    public void validateFields() {
+        if (this.getLogin() == null || this.getLogin().isBlank()) {
+            throw new ValidacaoException("campo login é obrigatório");
+        } 
+        if (this.getPassword() == null || this.getPassword().isBlank()) {
+            throw new ValidacaoException("campo password é obrigatório");
+        }
+    }
 }

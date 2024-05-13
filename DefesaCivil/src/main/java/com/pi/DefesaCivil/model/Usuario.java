@@ -26,6 +26,9 @@ public class Usuario {
     
     @Column
     private String email;
+
+    @Column
+    private String senha;
     
     @Column
     private String telefone;
@@ -35,8 +38,5 @@ public class Usuario {
     
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
-
-    @Column(name = "token_google")
-    private String tokenGoogle;
     
 }

@@ -13,6 +13,7 @@ import com.pi.DefesaCivil.dto.StatusEnum;
 import com.pi.DefesaCivil.exceptions.ValidacaoException;
 import com.pi.DefesaCivil.model.Administrador;
 import com.pi.DefesaCivil.model.Ocorrencias;
+import com.pi.DefesaCivil.model.Usuario;
 import com.pi.DefesaCivil.repository.OcorrenciasRepository;
 
 @Service
@@ -24,14 +25,8 @@ public class OcorrenciasService {
 
 
     public OcorrenciasDTO registrarOcorrencia(String email, String descricao) {
-        var userOpt = usuarioService.findByEmail(email);
-
-        if(userOpt.isEmpty()) {
-            throw new ValidacaoException("Usuário não encontrado. Por favor, informe seu e-mail de cadastro.");
-        }
-
-        var user = userOpt.get();
-
+        Usuario user = pegarUsuario(email);
+        
         var ocorrencia = Ocorrencias.builder()
                             .descricao(descricao)
                             .dataAbertura(LocalDateTime.now())
@@ -53,19 +48,15 @@ public class OcorrenciasService {
     }
 
     public List<OcorrenciasDTO> listarOcorrenciasPorUsuario(String email) {
-        var userOpt = usuarioService.findByEmail(email);
+        Usuario user = pegarUsuario(email);
 
-        if(userOpt.isEmpty()) {
-            throw new ValidacaoException("Usuário não encontrado. Por favor, informe seu e-mail de cadastro.");
-        }
-
-        var resultOpt = ocorrenciasRepository.findBySolicitante(userOpt.get());
+        var resultOpt = ocorrenciasRepository.findBySolicitante(user);
 
         if(resultOpt.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<OcorrenciasDTO> listaDeOcorrencias = new ArrayList<>();
+        var listaDeOcorrencias = new ArrayList<OcorrenciasDTO>();
 
         for (Ocorrencias ocorrencia : resultOpt.get()) {
 
@@ -111,4 +102,16 @@ public class OcorrenciasService {
     public Ocorrencias atualizarOcorrencia(Ocorrencias ocorrencias) {
         return ocorrenciasRepository.save(ocorrencias);
     }
+
+    private Usuario pegarUsuario(String email) {
+        Usuario user;
+        try {
+            user = usuarioService.findByEmail(email);
+
+        } catch (ValidacaoException ex) {
+            throw new ValidacaoException("Usuário não encontrado. Por favor, informe seu e-mail de cadastro.");
+        }
+        return user;
+    }
+
 }

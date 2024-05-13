@@ -3,11 +3,13 @@ package com.pi.DefesaCivil.exceptions;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class ErrorBody {
+@NoArgsConstructor
+public class BodyMensagem {
 
     private String mensagem;
 }

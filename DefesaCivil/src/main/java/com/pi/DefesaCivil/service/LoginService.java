@@ -19,7 +19,7 @@ public class LoginService {
 
     public Administrador validaLoginAdmin(LoginAdminDTO loginAdminDTO) {
 
-        var admin = administradorService.getAdmin(loginAdminDTO.getUsername());
+        var admin = administradorService.getAdmin(loginAdminDTO.getLogin());
 
         if (!loginAdminDTO.getPassword().equals(admin.getSenha())) {
             throw new ValidacaoException("Login ou senha incorretos!");
@@ -30,13 +30,13 @@ public class LoginService {
 
     public Usuario validaLoginUsuario(LoginDTO loginDTO) {
 
-        var userOpt = usuarioService.findByTokenGoogle(loginDTO.getTokenGoogle());
+        var user = usuarioService.findByEmail(loginDTO.getLogin());
 
-        if (userOpt.isEmpty()) {
-            throw new ValidacaoException("usuário não cadastrado!");
+        if (!loginDTO.getSenha().equals(user.getSenha())) {
+            throw new ValidacaoException("Login ou senha incorretos!");
         }
 
-        return userOpt.get();
+        return user;
     }
 
 }

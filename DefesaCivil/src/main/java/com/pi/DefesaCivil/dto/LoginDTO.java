@@ -1,6 +1,7 @@
 package com.pi.DefesaCivil.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.pi.DefesaCivil.exceptions.ValidacaoException;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginDTO {
     
-    @NotBlank(message = "tokenGoogle é obrigatório")
-    private String tokenGoogle;
+    private String login;
+    private String senha;
+
+    public void validateFields() {
+        if (this.getLogin() == null || this.getLogin().isBlank()) {
+            throw new ValidacaoException("campo login é obrigatório");
+        } 
+        if (this.getSenha() == null || this.getSenha().isBlank()) {
+            throw new ValidacaoException("campo senha é obrigatório");
+        }
+    }
 }

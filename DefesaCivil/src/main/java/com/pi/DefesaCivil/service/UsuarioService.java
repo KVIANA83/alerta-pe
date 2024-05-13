@@ -2,11 +2,10 @@ package com.pi.DefesaCivil.service;
 
 import com.pi.DefesaCivil.dto.CreateUsuarioDTO;
 import com.pi.DefesaCivil.dto.UsuarioDTO;
+import com.pi.DefesaCivil.exceptions.ValidacaoException;
 import com.pi.DefesaCivil.model.Usuario;
 import com.pi.DefesaCivil.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -23,8 +22,10 @@ public class UsuarioService {
         Usuario novoUsuario = Usuario.builder()
                 .nome(createUsuarioDTO.getNome())
                 .email(createUsuarioDTO.getEmail())
+                .senha(createUsuarioDTO.getSenha())
                 .telefone(createUsuarioDTO.getTelefone())
                 .dataNascimento(createUsuarioDTO.getDataNascimento())
+                .endereco(createUsuarioDTO.getEndereco())
                 .build();
 
         //Salvar o novo usuário no banco de dados
@@ -39,11 +40,12 @@ public class UsuarioService {
                 .build();
     }
 
-    public Optional<Usuario> findByEmail(String email) {
-        return usuarioRepository.findByEmail(email);
-    }
+    public Usuario findByEmail(String email) {
+        var userOpt = usuarioRepository.findByEmail(email);
 
-    public Optional<Usuario> findByTokenGoogle(String tokenGoogle) {
-        return usuarioRepository.findByTokenGoogle(tokenGoogle);
+        if(userOpt.isEmpty()) {
+            throw new ValidacaoException("Usuário não encontrado.");
+        }
+        return userOpt.get();
     }
 }
