@@ -13,15 +13,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TratarOcorrenciasDTO {
 
-    @NotNull(message = "idOcorrencia é obrigatório")
     private Long idOcorrencia;
-
-    @NotBlank(message = "loginAdmin é obrigatório")
     private String loginAdmin;
-
-    @NotBlank(message = "descrição é obrigatório")
     private String descricao;
-
-    @NotBlank(message = "status é obrigatório")
     private String status;
+    
+    public void validateFields() {
+        if (this.getIdOcorrencia() == null || this.getIdOcorrencia().isBlank()) {
+            throw new ValidacaoException("campo id ocorrencia é obrigatório");
+        } 
+        if (this.getLoginAdmin() == null || this.getLoginAdmin().isBlank()) {
+            throw new ValidacaoException("campo login do administrador é obrigatório");
+        }
+        if (this.getDescricao() == null || this.getDescricao().isBlank()) {
+            throw new ValidacaoException("campo descricao é obrigatório");
+        } 
+        if (this.getStatus() == null || this.getStatus().isBlank()) {
+            throw new ValidacaoException("campo status é obrigatório");
+        }
+    }
 }
