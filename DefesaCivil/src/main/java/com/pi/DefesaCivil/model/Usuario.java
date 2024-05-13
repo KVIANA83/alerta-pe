@@ -21,7 +21,7 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Long idUsuario;
     
-    @Column
+    @Column(name = "nome_completo")
     private String nome;
     
     @Column

@@ -21,7 +21,7 @@ public class Administrador {
     @Column(name = "id_admin")
     private Long idAdministrador;
     
-    @Column
+    @Column(name = "nome_completo")
     private String nome;
     
     @Column
