@@ -54,4 +54,4 @@ Para executar o projeto localmente, siga as instruções abaixo:
 
 - **Karine Viana Caldas** - Desenvolvedor Full Stack - [@KVIANA83](https://github.com/KVIANA83); 
 
-- **Matheus Pereira** - Desenvolvedor Full Stack - [ ] ( );
+- **Matheus Pereira** - Desenvolvedor Full Stack - [@MatheusSouza72] (https://github.com/MatheusSouza72);
