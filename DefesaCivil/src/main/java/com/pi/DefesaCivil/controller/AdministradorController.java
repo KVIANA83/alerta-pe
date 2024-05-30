@@ -30,21 +30,21 @@ public class AdministradorController {
     //criar enpoint para listar processos do admin
     //criar endpoint para atualizar processo
 
-    // Endpoint para listar todas as ocorrências sem admin
+    //Endpoint para listar todas as ocorrências sem admin
     @PostMapping("/listar-ocorrencias")
     public ResponseEntity<List<Ocorrencias>> listarOcorrenciasSemAdministrador() {
         List<Ocorrencias> ocorrencias = administradorService.listarOcorrenciasLivres();
         return ResponseEntity.ok(ocorrencias);
     }
 
-    // Endpoint para atribuir uma ocorrencia ao adminstrador
+    //Endpoint para atribuir uma ocorrencia ao adminstrador
     @PostMapping("/atribuir-ocorrencias")
     public ResponseEntity<String> atribuirOcorrenciasParaAdmin(Long idOcorrencia, String loginAdmin) {
         administradorService.atribuirOcorrencia(idOcorrencia, loginAdmin);
         return ResponseEntity.ok("Ocorrencia atribuída com sucesso!");
     }
     
-    //endpoint para atualizar o status da ocorrencia (vira processo ou não)
+    //Endpoint para atualizar o status da ocorrencia (vira processo ou não)
     @PostMapping("/tratar-ocorrencias")
     public ResponseEntity<String> tratarOcorrencias(@Valid @RequestBody TratarOcorrenciasDTO tratarOcorrenciasDTO) {
         var ocorrencia = administradorService.tratarOcorrencia(tratarOcorrenciasDTO);
@@ -65,5 +65,28 @@ public class AdministradorController {
         //Para recuperar e retornar as ocorrências
         return ResponseEntity.ok(ocorrencias);
     }
-    // Outros endpoints para atualizar e excluir processos, se necessário
+
+    //Endpoint para listar todos os processos
+    @GetMapping("/processos")
+    public ResponseEntity<List<Processos>> listarProcessos() {
+        List<Processos> processos = processosService.listarTodosProcessos();
+        return RespondeEntity.ok(processos);
+    }
+
+    //Endpoint para listar processos do admin
+    @GetMapping("/{loginAdmin}/processos")
+    public ResponseEntity<List<Processos>> listarProcessosDoAdmin(@PathVariable("loginAdmin") String loginAdmin) {
+        List<Processos> processos = processosService.listarProcessosPorAdmin(loginAdmin);
+        return ResponseEntity.ok(processos);
+    }
+
+
+    //Endpoint para atualizar um processo
+    @PutMapping("/processos/{id}")
+    public ResponseEntity<String> atualizarProcesso(@PathVariable Long id, @Valid @RequestBody Processos processoAtualizado) {
+        List processosService.atualizarProcesso(id, processoAtualizado);
+        return ResponseEntity.ok("Processo atualizado com sucesso.")
+    }
+
+    //Outros endpoints para atualizar e excluir processos, se necessário
 }
