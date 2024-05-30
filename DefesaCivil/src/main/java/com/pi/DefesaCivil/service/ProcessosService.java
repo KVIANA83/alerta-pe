@@ -45,6 +45,11 @@ public class ProcessosService {
     public Optional<Processos> buscarProcessoPorId(Long idProcesso) {
         return processosRepository.findById(idProcesso);
     }
+    
+    // Método para listar processos por administrador
+    public List<Processos> listarProcessosPorAdmin(String loginAdmin) {
+        return processosRepository.findByAdministradorLogin(loginAdmin);
+    }
 
     // Método para atualizar um processo (apenas administradores podem fazer isso)
     public Processos atualizarProcesso(Long idProcesso, String status) {
