@@ -19,13 +19,6 @@ O **Alerta PE** é um sistema de alerta de desastres naturais para o estado de P
 - MySQL
 - Docker
 
-## Como Contribuir
-
-Você pode contribuir com o **Alerta PE** de várias formas:
-- Reportando bugs e sugerindo melhorias
-- Implementando novas funcionalidades
-- Melhorando a documentação
-
 ## Instalação e Uso
 
 Para executar o projeto localmente, siga as instruções abaixo:
