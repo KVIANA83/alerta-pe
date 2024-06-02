@@ -1,0 +1,751 @@
+openapi: 3.0.1
+info:
+  title: Alerta-PE API
+  description: API para controle de Ocorrências e Processos da Defesa Civil
+  version: ""
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /administrador/tratar-ocorrencias:
+    put:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para atualizar o status da ocorrencia (vira processo ou
+        não)
+      operationId: tratarOcorrencias
+      parameters:
+      - name: idOcorrencia
+        in: query
+        description: Id da ocorrência registrada
+        example: 123
+      - name: loginAdmin
+        in: query
+        description: Login do Administrador cadastrado
+        example: A12345
+      - name: descricao
+        in: query
+        description: Descrição da tratativa da ocorrência
+        example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+      - name: status
+        in: query
+        description: Status de atualização da ocorrência
+        example: RESOLVIDO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TratarOcorrenciasDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+  /administrador/atualizar-processo:
+    put:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para atualizar um processo
+      operationId: atualizarProcesso
+      parameters:
+      - name: idProcesso
+        in: query
+        description: Id do processo registrado
+        example: 12345
+      - name: loginAdmin
+        in: query
+        description: Login do Administrador cadastrado
+        example: A1234
+      - name: descricao
+        in: query
+        description: Descrição da tratativa do Processo
+        example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+      - name: status
+        in: query
+        description: Status de atualização da ocorrência
+        example: RESOLVIDO
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TratarProcessosDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+  /usuarios/{email}/ocorrencias:
+    get:
+      tags:
+      - Alerta-PE Usuario Controller API
+      description: Endpoint para acompanhar o andamento das ocorrências
+      operationId: acompanharOcorrencias
+      parameters:
+      - name: email
+        in: path
+        description: E-mail do usuário cadastrado
+        required: true
+        schema:
+          type: string
+        example: maria.joao@email.com
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcorrenciasDTO'
+    post:
+      tags:
+      - Alerta-PE Usuario Controller API
+      description: Endpoint para solicitar uma ocorrência
+      operationId: solicitarOcorrencia
+      parameters:
+      - name: email
+        in: path
+        description: E-mail do usuário cadastrado
+        required: true
+        schema:
+          type: string
+        example: maria.joao@email.com
+      - name: descricao
+        in: query
+        description: Descrição da tratativa da ocorrência
+        example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOcorrenciaDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcorrenciasDTO'
+  /usuarios/registrar:
+    post:
+      tags:
+      - Alerta-PE Usuario Controller API
+      description: Endpoint para registrar um novo usuário
+      operationId: registrarUsuario
+      parameters:
+      - name: nome
+        in: query
+        description: Nome do usuário cadastrado
+        example: Maria João da Silva
+      - name: senha
+        in: query
+        description: Senha do usuário cadastrado
+        example: SeNHA.123
+      - name: email
+        in: query
+        description: E-mail do usuário cadastrado
+        example: maria.joao@email.com
+      - name: telefone
+        in: query
+        description: Telefone do usuário cadastrado
+        example: 81988776655
+      - name: dataNascimento
+        in: query
+        description: Data de nascimento do usuário cadastrado
+        example: 2000-01-01
+      - name: endereco
+        in: query
+        description: Endereço do usuário cadastrado
+        example: "Rua rua, s/n, Bairro bairro, Cidade - Ci, cep 11220330"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUsuarioDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioDTO'
+  /login/usuario:
+    post:
+      tags:
+      - Alerta-PE Login Controller API
+      description: Endpoint para realizar login de usuário
+      operationId: login
+      parameters:
+      - name: login
+        in: query
+        description: Login do usuário cadastrado
+        example: A1234
+      - name: senha
+        in: query
+        description: Senha cadastrada pelo usuário
+        example: SeNHa.123
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+  /login/admin:
+    post:
+      tags:
+      - Alerta-PE Login Controller API
+      description: Endpoint para realizar login de administrador
+      operationId: login_1
+      parameters:
+      - name: login
+        in: query
+        description: Login do Administrador cadastrado
+        example: A1234
+      - name: password
+        in: query
+        description: Senha cadastrada pelo Administrador
+        example: sEnhA123.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginAdminDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Administrador'
+  /administrador/atribuir-processos:
+    post:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para atribuir um processo ao adminstrador
+      operationId: atribuirProcessosParaAdmin
+      parameters:
+      - name: codProcesso
+        in: query
+        description: Códico único do processo
+        example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+      - name: loginAdmin
+        in: query
+        description: Login do Administrador cadastrado
+        example: A1234
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtribuirProcessoDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+  /administrador/atribuir-ocorrencias:
+    post:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para atribuir uma ocorrencia ao adminstrador
+      operationId: atribuirOcorrenciasParaAdmin
+      parameters:
+      - name: codOcorrencia
+        in: query
+        description: Parametros necessários para realizar a requisição
+        example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+      - name: loginAdmin
+        in: query
+        description: Parametros necessários para realizar a requisição
+        example: A1234
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtribuirOcorrenciaDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+  /ocorrencias/{id}:
+    get:
+      tags:
+      - Alerta-PE Ocorrencias Controller API
+      description: Endpoint para encontrar ocorrência pelo seu ID
+      operationId: pegarOcorrencia
+      parameters:
+      - name: id
+        in: path
+        description: ID da ocorrência
+        required: true
+        schema:
+          type: integer
+          format: int64
+        example: 123
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcorrenciasDTO'
+  /ocorrencias/listar-todas:
+    get:
+      tags:
+      - Alerta-PE Ocorrencias Controller API
+      description: Endpoint para listar todas as ocorrências
+      operationId: listarTodasOcorrencias
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcorrenciasDTO'
+  /ocorrencias/listar-ocorrencias-sem-adm:
+    get:
+      tags:
+      - Alerta-PE Ocorrencias Controller API
+      description: Endpoint para listar todas as ocorrências sem administrador
+      operationId: listarOcorrenciasSemAdministrador
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OcorrenciasDTO'
+  /administrador/{loginAdmin}/processos:
+    get:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para listar processos do administrador
+      operationId: listarProcessosDoAdmin
+      parameters:
+      - name: loginAdmin
+        in: path
+        description: Login do Administrador cadastrado
+        required: true
+        schema:
+          type: string
+        example: A12345
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Processos'
+  /administrador/{loginAdmin}/ocorrencias:
+    get:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para listar todas as ocorrências do administrador
+      operationId: acompanharOcorrencias_1
+      parameters:
+      - name: loginAdmin
+        in: path
+        description: Login do Administrador cadastrado
+        required: true
+        schema:
+          type: string
+        example: A12345
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ocorrencias'
+  /administrador/processos:
+    get:
+      tags:
+      - Alerta-PE Administrador Controller API
+      description: Endpoint para listar todos os processos
+      operationId: listarProcessos
+      responses:
+        "400":
+          description: Erro ao realizar a requisição
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BodyMensagem'
+        "200":
+          description: Requisição feita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Processos'
+components:
+  schemas:
+    BodyMensagem:
+      type: object
+      properties:
+        mensagem:
+          type: string
+    TratarOcorrenciasDTO:
+      required:
+      - descricao
+      - idOcorrencia
+      - loginAdmin
+      - status
+      type: object
+      properties:
+        idOcorrencia:
+          type: string
+          description: Id da ocorrência registrada
+          example: "123"
+        loginAdmin:
+          type: string
+          description: Login do Administrador cadastrado
+          example: A12345
+        descricao:
+          type: string
+          description: Descrição da tratativa da ocorrência
+          example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+        status:
+          type: string
+          description: Status de atualização da ocorrência
+          example: RESOLVIDO
+    TratarProcessosDTO:
+      required:
+      - descricao
+      - idProcesso
+      - loginAdmin
+      - status
+      type: object
+      properties:
+        idProcesso:
+          type: string
+          description: Id do processo registrado
+          example: "12345"
+        loginAdmin:
+          type: string
+          description: Login do Administrador cadastrado
+          example: A1234
+        descricao:
+          type: string
+          description: Descrição da tratativa do Processo
+          example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+        status:
+          type: string
+          description: Status de atualização da ocorrência
+          example: RESOLVIDO
+    OcorrenciasDTO:
+      type: object
+      properties:
+        codigo:
+          type: string
+        descricao:
+          type: string
+        observacao:
+          type: string
+        dataAbertura:
+          type: string
+          format: date-time
+        dataFechamento:
+          type: string
+          format: date-time
+        contato:
+          type: string
+        status:
+          type: string
+        nomeSolicitante:
+          type: string
+        loginAdministrador:
+          type: string
+    CreateOcorrenciaDTO:
+      required:
+      - descricao
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: E-mail do usuário cadastrado
+          example: maria.joao@email.com
+        descricao:
+          type: string
+          description: Descrição da tratativa da ocorrência
+          example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+    UsuarioDTO:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+    CreateUsuarioDTO:
+      required:
+      - dataNascimento
+      - email
+      - endereco
+      - nome
+      - senha
+      - telefone
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nome do usuário cadastrado
+          example: Maria João da Silva
+        senha:
+          type: string
+          description: Senha do usuário cadastrado
+          example: SeNHA.123
+        email:
+          type: string
+          description: E-mail do usuário cadastrado
+          example: maria.joao@email.com
+        telefone:
+          type: string
+          description: Telefone do usuário cadastrado
+          example: "81988776655"
+        dataNascimento:
+          type: string
+          description: Data de nascimento do usuário cadastrado
+          format: date
+          example: 2000-01-01
+        endereco:
+          type: string
+          description: Endereço do usuário cadastrado
+          example: "Rua rua, s/n, Bairro bairro, Cidade - Ci, cep 11220330"
+    Usuario:
+      type: object
+      properties:
+        idUsuario:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        telefone:
+          type: string
+        endereco:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+    LoginDTO:
+      required:
+      - login
+      - senha
+      type: object
+      properties:
+        login:
+          type: string
+          description: Login do usuário cadastrado
+          example: A1234
+        senha:
+          type: string
+          description: Senha cadastrada pelo usuário
+          example: SeNHa.123
+    Administrador:
+      type: object
+      properties:
+        idAdministrador:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        telefone:
+          type: string
+        dataNascimento:
+          type: string
+          format: date
+        cargo:
+          type: string
+        login:
+          type: string
+        senha:
+          type: string
+    LoginAdminDTO:
+      required:
+      - login
+      - password
+      type: object
+      properties:
+        login:
+          type: string
+          description: Login do Administrador cadastrado
+          example: A1234
+        password:
+          type: string
+          description: Senha cadastrada pelo Administrador
+          example: sEnhA123.
+    AtribuirProcessoDTO:
+      required:
+      - codProcesso
+      - loginAdmin
+      type: object
+      properties:
+        codProcesso:
+          type: string
+          description: Códico único do processo
+          example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+        loginAdmin:
+          type: string
+          description: Login do Administrador cadastrado
+          example: A1234
+    AtribuirOcorrenciaDTO:
+      required:
+      - codOcorrencia
+      - loginAdmin
+      type: object
+      properties:
+        codOcorrencia:
+          type: string
+          description: Códico único da ocorrência
+          example: bac6a814-423a-41f7-a257-7b7b38a7d6c2
+        loginAdmin:
+          type: string
+          description: Login do Administrador cadastrado
+          example: A1234
+    Ocorrencias:
+      type: object
+      properties:
+        idOcorrencia:
+          type: integer
+          format: int64
+        codigo:
+          type: string
+        descricao:
+          type: string
+        observacao:
+          type: string
+        dataAbertura:
+          type: string
+          format: date-time
+        dataFechamento:
+          type: string
+          format: date-time
+        contato:
+          type: string
+        status:
+          type: string
+        solicitante:
+          $ref: '#/components/schemas/Usuario'
+        administrador:
+          $ref: '#/components/schemas/Administrador'
+    Processos:
+      type: object
+      properties:
+        idProcessos:
+          type: integer
+          format: int64
+        codigo:
+          type: string
+        descricao:
+          type: string
+        dataAbertura:
+          type: string
+          format: date-time
+        dataFechamento:
+          type: string
+          format: date-time
+        status:
+          type: string
+        contato:
+          type: string
+        ocorrencia:
+          $ref: '#/components/schemas/Ocorrencias'
+        administrador:
+          $ref: '#/components/schemas/Administrador'
