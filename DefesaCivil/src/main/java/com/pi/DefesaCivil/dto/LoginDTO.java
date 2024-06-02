@@ -16,7 +16,7 @@ public class LoginDTO {
     private String login;
     private String senha;
 
-    public void validateFields() {
+    public void validarCampos() {
         if (this.getLogin() == null || this.getLogin().isBlank()) {
             throw new ValidacaoException("campo login é obrigatório");
         } 

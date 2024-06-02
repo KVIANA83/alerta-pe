@@ -5,6 +5,7 @@ import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.model.Usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -21,4 +22,9 @@ public interface OcorrenciasRepository extends JpaRepository<Ocorrencias, Long> 
     Optional<List<Ocorrencias>> findBySolicitante(Usuario usuario);
 
     Optional<List<Ocorrencias>> findByAdministrador(Administrador admin);
+
+    @Query(value = "select o.* from ocorrencias o where o.id_admin is null", nativeQuery = true)
+    Optional<List<Ocorrencias>> findAllSemAdministrador();
+
+    Optional<Ocorrencias> findByCodigo(String codigo);
 }

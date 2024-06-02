@@ -1,4 +1,4 @@
-package com.pi.DefesaCivil.dto;
+package com.pi.DefesaCivil.dto.resposta;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;

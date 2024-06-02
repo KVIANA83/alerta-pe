@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.pi.DefesaCivil.dto.StatusEnum;
-
 @Entity
 @Data
 @Builder
@@ -36,7 +34,7 @@ public class Processos {
     private LocalDateTime dataFechamento;
 
     @Column
-    private StatusEnum status;
+    private String status;
     
     @Column
     private String contato;

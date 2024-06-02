@@ -1,7 +1,7 @@
 package com.pi.DefesaCivil.service;
 
 import com.pi.DefesaCivil.dto.CreateUsuarioDTO;
-import com.pi.DefesaCivil.dto.UsuarioDTO;
+import com.pi.DefesaCivil.dto.resposta.UsuarioDTO;
 import com.pi.DefesaCivil.exceptions.ValidacaoException;
 import com.pi.DefesaCivil.model.Usuario;
 import com.pi.DefesaCivil.repository.UsuarioRepository;

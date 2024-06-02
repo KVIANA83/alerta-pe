@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import com.pi.DefesaCivil.dto.StatusEnum;
-
 @Entity
 @Data
 @Builder
@@ -42,13 +40,13 @@ public class Ocorrencias {
     private String contato;
     
     @Column
-    private StatusEnum status;
+    private String status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_solicitante")
     private Usuario solicitante;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_admin")
     private Administrador administrador;
         

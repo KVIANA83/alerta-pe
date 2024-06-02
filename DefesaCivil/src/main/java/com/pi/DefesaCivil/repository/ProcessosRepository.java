@@ -1,6 +1,7 @@
 package com.pi.DefesaCivil.repository;
 
 import com.pi.DefesaCivil.model.Processos;
+import com.pi.DefesaCivil.model.Administrador;
 import com.pi.DefesaCivil.model.Ocorrencias;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,8 @@ import java.util.Optional;
 public interface ProcessosRepository extends JpaRepository<Processos, Long> {
     
     Optional<List<Processos>> findAllByOcorrencia(@Param("ocorrencia") Ocorrencias ocorrencia);
+
+    Optional<List<Processos>> findAllByAdministrador(@Param("administrador") Administrador administrador);
+
+    Optional<Processos> findByCodigo(@Param("codigo") String codigo);
 }

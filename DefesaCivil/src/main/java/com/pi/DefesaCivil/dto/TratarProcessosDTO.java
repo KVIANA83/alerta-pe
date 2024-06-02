@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TratarOcorrenciasDTO {
+public class TratarProcessosDTO {
 
-    private String idOcorrencia;
+    private String idProcesso;
     private String loginAdmin;
     private String descricao;
     private String status;
     
     public void validarCampos() {
-        if (this.getIdOcorrencia() == null || this.getIdOcorrencia().isBlank()) {
-            throw new ValidacaoException("campo id ocorrencia é obrigatório");
+        if (this.getIdProcesso() == null || this.getIdProcesso().isBlank()) {
+            throw new ValidacaoException("campo id processo é obrigatório");
         } 
         if (this.getLoginAdmin() == null || this.getLoginAdmin().isBlank()) {
             throw new ValidacaoException("campo login do administrador é obrigatório");

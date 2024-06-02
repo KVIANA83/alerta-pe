@@ -22,7 +22,7 @@ public class LoginController {
 
     @PostMapping("/admin")
     public ResponseEntity<Administrador> login(@RequestBody LoginAdminDTO loginAdminDTO) {
-        loginAdminDTO.validateFields();
+        loginAdminDTO.validarCampos();
         log.info("Iniciando login de Administrador: {}", loginAdminDTO.getLogin());
         var admin = service.validaLoginAdmin(loginAdminDTO);
     
@@ -31,7 +31,7 @@ public class LoginController {
 
     @PostMapping("/usuario")
     public ResponseEntity<Usuario> login(@RequestBody LoginDTO loginDTO) {
-        loginDTO.validateFields();
+        loginDTO.validarCampos();
         log.info("Iniciando login de Administrador: {}", loginDTO.getLogin());
         var user = service.validaLoginUsuario(loginDTO);
 

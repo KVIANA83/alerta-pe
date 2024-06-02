@@ -2,8 +2,8 @@ package com.pi.DefesaCivil.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.pi.DefesaCivil.exceptions.ValidacaoException;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +22,9 @@ public class CreateUsuarioDTO {
     private LocalDate dataNascimento;
     private String endereco; 
     
-    public void validateFields() {
+    public void validarCampos() {
         if (this.getNome() == null || this.getNome().isBlank()) {
-            throw new ValidacaoException("campo nome é obrigatório")
+            throw new ValidacaoException("campo nome é obrigatório");
         }
         if (this.getEmail() == null || this.getEmail().isBlank()) {
             throw new ValidacaoException("campo e-mail é obrigatório");
@@ -33,9 +33,9 @@ public class CreateUsuarioDTO {
             throw new ValidacaoException("campo senha é obrigatório");
         }
         if (this.getTelefone() == null || this.getTelefone().isBlank()) {
-            throw new ValidacaoException("campo telefone é obrigatório")
+            throw new ValidacaoException("campo telefone é obrigatório");
         }
-        if (this.getDataNascimento() == null || this.getDataNascimento().isBlank()) {
+        if (this.getDataNascimento() == null) {
             throw new ValidacaoException("campo data de nascimento é obrigatório");
         } 
         if (this.getEndereco() == null || this.getEndereco().isBlank()) {

@@ -1,14 +1,14 @@
 package com.pi.DefesaCivil.controller;
 
+import com.pi.DefesaCivil.dto.CreateOcorrenciaDTO;
 import com.pi.DefesaCivil.dto.CreateUsuarioDTO;
-import com.pi.DefesaCivil.dto.OcorrenciasDTO;
-import com.pi.DefesaCivil.dto.UsuarioDTO;
+import com.pi.DefesaCivil.dto.resposta.OcorrenciasDTO;
+import com.pi.DefesaCivil.dto.resposta.UsuarioDTO;
+
 import lombok.AllArgsConstructor;
 
 import com.pi.DefesaCivil.service.OcorrenciasService;
 import com.pi.DefesaCivil.service.UsuarioService;
-
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -32,15 +32,18 @@ public class UsuarioController {
 
     //Endpoint para registrar um novo usuário
     @PostMapping("/registrar")
-    public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody @Valid CreateUsuarioDTO createUsuarioDTO) {
+    public ResponseEntity<UsuarioDTO> registrarUsuario(@RequestBody CreateUsuarioDTO createUsuarioDTO) {
+        createUsuarioDTO.validarCampos();
         UsuarioDTO novoUsuario = usuarioService.registrarUsuario(createUsuarioDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
     //Endpoint para solicitar uma ocorrência
     @PostMapping("/{email}/ocorrencias")
-    public ResponseEntity<OcorrenciasDTO> solicitarOcorrencia(@PathVariable("email") String email, @RequestBody String descricaoOcorrencia) {
-        OcorrenciasDTO ocorrenciaSalva = ocorrenciasService.registrarOcorrencia(email, descricaoOcorrencia);
+    public ResponseEntity<OcorrenciasDTO> solicitarOcorrencia(@PathVariable("email") String email, @RequestBody CreateOcorrenciaDTO createOcorrenciaDTO) {
+        createOcorrenciaDTO.setEmail(email);
+        createOcorrenciaDTO.validarCampos();
+        OcorrenciasDTO ocorrenciaSalva = ocorrenciasService.registrarOcorrencia(createOcorrenciaDTO);
         //Para solicitar uma ocorrência
         return ResponseEntity.ok(ocorrenciaSalva);
     }
