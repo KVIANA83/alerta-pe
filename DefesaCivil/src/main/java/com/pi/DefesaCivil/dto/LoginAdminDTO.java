@@ -2,6 +2,7 @@ package com.pi.DefesaCivil.dto;
 
 import com.pi.DefesaCivil.exceptions.ValidacaoException;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginAdminDTO {
     
+    @Schema(name = "login", 
+            description = "Login do Administrador cadastrado", 
+            example = "A1234", 
+            required = true)
     private String login;
+
+    @Schema(name = "password", 
+            description = "Senha cadastrada pelo Administrador", 
+            example = "sEnhA123.", 
+            required = true)
     private String password;
 
 
