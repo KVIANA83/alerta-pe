@@ -8,26 +8,37 @@ import com.pi.DefesaCivil.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @AllArgsConstructor
 public class UsuarioService {
     
     private final UsuarioRepository usuarioRepository;
+    
+    // Injeta o PasswordEnconder 
+    private final PasswordEncoder passwordEncoder;
 
-
+    
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+    
     public UsuarioDTO registrarUsuario(CreateUsuarioDTO createUsuarioDTO) {
         //Mapear UsuarioDTO para Usuario
         Usuario novoUsuario = Usuario.builder()
                 .nome(createUsuarioDTO.getNome())
                 .email(createUsuarioDTO.getEmail())
-                .senha(createUsuarioDTO.getSenha())
+                .senha(createUsuarioDTO.getSenha()) // Senha ainda está em texto plano
                 .telefone(createUsuarioDTO.getTelefone())
                 .dataNascimento(createUsuarioDTO.getDataNascimento())
                 .endereco(createUsuarioDTO.getEndereco())
                 .build();
 
+        // Criptografar a senha antes de salvar
+        novoUsuario.setSenha(passwordEncoder.encode(createUsuarioDTO.getSenha())); // Utilizar passwordEncoder.encode()
+        
         //Salvar o novo usuário no banco de dados
         var entity = usuarioRepository.save(novoUsuario);
 
