@@ -11,7 +11,9 @@ import com.pi.DefesaCivil.model.Ocorrencias;
 import com.pi.DefesaCivil.model.Processos;
 import com.pi.DefesaCivil.repository.AdministradorRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder; 
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,8 +25,31 @@ public class AdministradorService {
     private final OcorrenciasService ocorrenciasService;
     private final AdministradorRepository administradorRepository;
     private final ProcessosService processosService;
+    
+        // Injeta o PasswordEnconder 
+    private final PasswordEncoder passwordEncoder;
+    
+    public Administrador salvarAdministrador(CreateAdminDTO createAdminDTO) {
+        // Mapear AdministradorDTO para Administrador 
+        Administrador novoAdmin = Administrador.builder()
+                .nome(createAdminDTO.getNome())
+                .email(createAdminDTO.getEmail())
+                .telefone(createAdminDTO.getTelefone())
+                .dataNascimento(createAdminDTO.getDataNascimento())
+                .cargo(createAdminDTO.getCargo())
+                .login(createAdminDTO.getLogin())
+                .senha(createAdminDTO).getSenha()) // Senha ainda está em texto plano
+                .build();
 
+        // Criptografar a senha antes de salvar
+        novoAdmin.setSenha(passwordEncoder.encode(createAdminDTO.getSenha())); // Utilizar passwordEncoder.encode()
 
+        //Salvar o novo administrador no banco de dados
+        var entity = administradorRepository.save(novoAdmin);
+        
+        return entity;
+    }
+    
     public Administrador getAdmin(String login) {
         var adminOpt = administradorRepository.findByLogin(login);
 
