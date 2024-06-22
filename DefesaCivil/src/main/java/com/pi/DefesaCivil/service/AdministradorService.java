@@ -30,16 +30,7 @@ public class AdministradorService {
     private final PasswordEncoder passwordEncoder;
     
     public Administrador salvarAdministrador(CreateAdminDTO createAdminDTO) {
-        // Mapear AdministradorDTO para Administrador 
-        Administrador novoAdmin = Administrador.builder()
-                .nome(createAdminDTO.getNome())
-                .email(createAdminDTO.getEmail())
-                .telefone(createAdminDTO.getTelefone())
-                .dataNascimento(createAdminDTO.getDataNascimento())
-                .cargo(createAdminDTO.getCargo())
-                .login(createAdminDTO.getLogin())
-                .senha(createAdminDTO).getSenha()) // Senha ainda está em texto plano
-                .build();
+        
 
         // Criptografar a senha antes de salvar
         novoAdmin.setSenha(passwordEncoder.encode(createAdminDTO.getSenha())); // Utilizar passwordEncoder.encode()
